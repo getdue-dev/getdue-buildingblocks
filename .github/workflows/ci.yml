@@ -19,3 +19,10 @@ jobs:
       project: "GetDue.BuildingBlocks.sln"
       run-tests: true
     secrets: inherit
+  build-money-coverage:
+    uses: getdue-dev/.github/.github/workflows/dotnet-build.yml@main
+    with:
+      project: "tests/GetDue.BuildingBlocks.Money.Tests/GetDue.BuildingBlocks.Money.Tests.csproj"
+      collect-coverage: true
+      coverage-threshold: 100
+    secrets: inherit
