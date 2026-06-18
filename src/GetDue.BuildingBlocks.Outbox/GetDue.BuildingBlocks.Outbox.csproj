@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>GetDue.BuildingBlocks.Outbox</RootNamespace>
+    <AssemblyName>GetDue.BuildingBlocks.Outbox</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <Description>Transactional outbox and relay primitives for GetDue services.</Description>
+  </PropertyGroup>
+
+</Project>

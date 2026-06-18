@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>GetDue.BuildingBlocks.Telemetry</RootNamespace>
+    <AssemblyName>GetDue.BuildingBlocks.Telemetry</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <Description>OpenTelemetry bootstrap primitives for GetDue services.</Description>
+  </PropertyGroup>
+
+</Project>

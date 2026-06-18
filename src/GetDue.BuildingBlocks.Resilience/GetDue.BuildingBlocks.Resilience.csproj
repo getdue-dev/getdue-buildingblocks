@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>GetDue.BuildingBlocks.Resilience</RootNamespace>
+    <AssemblyName>GetDue.BuildingBlocks.Resilience</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <Description>Polly v8 resilience preset primitives for GetDue services.</Description>
+  </PropertyGroup>
+
+</Project>

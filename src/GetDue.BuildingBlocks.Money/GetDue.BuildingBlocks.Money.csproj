@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>GetDue.BuildingBlocks.Money</RootNamespace>
+    <AssemblyName>GetDue.BuildingBlocks.Money</AssemblyName>
+    <IsPackable>true</IsPackable>
+    <Description>Money value object and ISO-4217 currency primitives for GetDue services.</Description>
+    <PackageId>GetDue.BuildingBlocks.Money</PackageId>
+    <PackageTags>getdue;money;value-object</PackageTags>
+  </PropertyGroup>
+
+</Project>
