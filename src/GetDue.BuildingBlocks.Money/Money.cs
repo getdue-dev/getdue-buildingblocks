@@ -2,9 +2,18 @@ using System.Globalization;
 
 namespace GetDue.BuildingBlocks.Money;
 
-/// <summary>A monetary amount paired with its currency. Immutable, scale-4 decimal, never floats.</summary>
+/// <summary>
+/// A monetary amount paired with its currency. Immutable, scale-4 decimal, never floats.
+/// </summary>
+/// <remarks>
+/// <c>default(Money)</c> is not a valid value — it has a <c>default(CurrencyCode)</c> whose
+/// <see cref="CurrencyCode.Value"/> is <c>null</c>, which breaks serialization and EF round-trips.
+/// Consumers should construct via <see cref="Money(decimal, CurrencyCode)"/> or
+/// <see cref="Zero(CurrencyCode)"/>.
+/// </remarks>
 public readonly record struct Money : IComparable<Money>
 {
+    // 'static readonly' (not const) so coverlet's instrumentation observes the field-load branch.
     private static readonly decimal RangeCeiling = 1_000_000_000_000_000m; // 10^15
 
     /// <summary>The signed amount, always at decimal scale 4 (banker's rounding).</summary>
@@ -14,9 +23,15 @@ public readonly record struct Money : IComparable<Money>
     public CurrencyCode Currency { get; }
 
     /// <summary>Creates a new <see cref="Money"/>, rounding the amount to scale 4 (ToEven).</summary>
+    /// <exception cref="ArgumentException">When <paramref name="currency"/> is <c>default(CurrencyCode)</c>.</exception>
     /// <exception cref="OverflowException">When the rounded amount falls outside <c>numeric(19,4)</c>.</exception>
     public Money(decimal amount, CurrencyCode currency)
     {
+        if (currency.Value is null)
+        {
+            throw new ArgumentException("Currency must be specified.", nameof(currency));
+        }
+
         var rounded = RoundToScale4(amount);
         EnsureInRange(rounded);
         Amount = rounded;

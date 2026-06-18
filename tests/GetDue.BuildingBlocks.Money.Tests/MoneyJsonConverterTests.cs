@@ -74,11 +74,11 @@ public sealed class MoneyJsonConverterTests
     }
 
     [Fact]
-    public void Read_rejects_null_amount_string_token()
+    public void Read_rejects_empty_string_amount()
     {
-        // Token type is JsonTokenType.Null when value is null literal — but if amount were a JSON null literal
-        // wrapped in a string, the string-branch parser still hits null via decoded value.
-        var json = @"{""amount"":null,""currency"":""EUR""}";
+        // Exercises the string branch of the amount parser: a present-but-empty value must fail
+        // (decimal.Parse on an empty span throws FormatException, which the converter wraps).
+        var json = @"{""amount"":"""",""currency"":""EUR""}";
         Action act = () => JsonSerializer.Deserialize<Money>(json, Options);
         act.Should().Throw<JsonException>();
     }
@@ -91,10 +91,13 @@ public sealed class MoneyJsonConverterTests
         act.Should().Throw<JsonException>();
     }
 
-    [Fact]
-    public void Read_rejects_non_string_non_number_amount()
+    [Theory]
+    [InlineData(@"{""amount"":true,""currency"":""EUR""}")]
+    [InlineData(@"{""amount"":false,""currency"":""EUR""}")]
+    [InlineData(@"{""amount"":{},""currency"":""EUR""}")]
+    [InlineData(@"{""amount"":[],""currency"":""EUR""}")]
+    public void Read_rejects_non_string_non_number_amount(string json)
     {
-        var json = @"{""amount"":true,""currency"":""EUR""}";
         Action act = () => JsonSerializer.Deserialize<Money>(json, Options);
         act.Should().Throw<JsonException>();
     }

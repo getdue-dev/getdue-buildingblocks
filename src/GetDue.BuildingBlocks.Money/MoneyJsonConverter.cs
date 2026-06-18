@@ -41,10 +41,7 @@ public sealed class MoneyJsonConverter : JsonConverter<Money>
             {
                 amount = reader.TokenType switch
                 {
-                    JsonTokenType.String => decimal.Parse(
-                        reader.GetString()!,
-                        NumberStyles.Number,
-                        CultureInfo.InvariantCulture),
+                    JsonTokenType.String => ParseDecimalString(reader.GetString()!),
                     JsonTokenType.Number => reader.GetDecimal(),
                     JsonTokenType.Null => throw new JsonException("Money.amount must not be null."),
                     _ => throw new JsonException("Money.amount must be a string or number."),
@@ -76,6 +73,16 @@ public sealed class MoneyJsonConverter : JsonConverter<Money>
         }
 
         return new Money(amount.Value, CurrencyCode.Parse(currency));
+    }
+
+    private static decimal ParseDecimalString(string text)
+    {
+        if (!decimal.TryParse(text, NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var value))
+        {
+            throw new JsonException("Money.amount is not a valid decimal.");
+        }
+
+        return value;
     }
 
     /// <inheritdoc/>

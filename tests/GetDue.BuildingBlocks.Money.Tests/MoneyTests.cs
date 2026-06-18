@@ -40,25 +40,65 @@ public sealed class MoneyTests
     }
 
     [Fact]
-    public void Constructor_accepts_magnitude_ceiling()
+    public void Constructor_accepts_positive_magnitude_ceiling()
     {
-        var ceiling = 9_999_999_999_999.9999m;
+        var ceiling = 999_999_999_999_999.9999m; // boundary of numeric(19,4)
         var m = new Money(ceiling, Eur);
         m.Amount.Should().Be(ceiling);
     }
 
     [Fact]
-    public void Constructor_rejects_amount_at_or_above_range()
+    public void Constructor_accepts_negative_magnitude_ceiling()
     {
-        Action act = () => _ = new Money(10_000_000_000_000_000m, Eur);
+        var ceiling = -999_999_999_999_999.9999m;
+        var m = new Money(ceiling, Eur);
+        m.Amount.Should().Be(ceiling);
+    }
+
+    [Fact]
+    public void Constructor_rejects_amount_just_above_positive_boundary()
+    {
+        Action act = () => _ = new Money(1_000_000_000_000_000m, Eur);
         act.Should().Throw<OverflowException>();
+    }
+
+    [Fact]
+    public void Constructor_rejects_amount_just_below_negative_boundary()
+    {
+        Action act = () => _ = new Money(-1_000_000_000_000_000m, Eur);
+        act.Should().Throw<OverflowException>();
+    }
+
+    [Fact]
+    public void Constructor_rejects_default_currency()
+    {
+        Action act = () => _ = new Money(0m, default);
+        act.Should().Throw<ArgumentException>().WithMessage("Currency must be specified.*");
+    }
+
+    [Theory]
+    [InlineData("999999999999999.9999", "EUR")]
+    [InlineData("-999999999999999.9999", "EUR")]
+    [InlineData("999999999999999.9999", "USD")]
+    [InlineData("-999999999999999.9999", "USD")]
+    public void Boundary_money_round_trips_through_value_converter(string amount, string currency)
+    {
+        var original = new Money(
+            decimal.Parse(amount, System.Globalization.CultureInfo.InvariantCulture),
+            CurrencyCode.Parse(currency));
+        var converter = new MoneyValueConverter();
+
+        var stored = (string)converter.ConvertToProvider(original)!;
+        var roundTripped = (Money)converter.ConvertFromProvider(stored)!;
+
+        roundTripped.Should().Be(original);
     }
 
     [Fact]
     public void Multiply_that_overflows_throws()
     {
-        var m = new Money(9_999_999_999_999.9999m, Eur);
-        Action act = () => _ = m * 1_000_000m;
+        var m = new Money(999_999_999_999_999.9999m, Eur);
+        Action act = () => _ = m * 10m;
         act.Should().Throw<OverflowException>();
     }
 

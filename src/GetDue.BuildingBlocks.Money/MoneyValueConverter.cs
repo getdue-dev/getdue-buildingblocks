@@ -5,8 +5,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GetDue.BuildingBlocks.Money;
 
 /// <summary>
-/// EF Core value converter that stores <see cref="Money"/> as a single <c>varchar(24)</c> column
-/// formatted <c>"1234.5600 EUR"</c>.
+/// EF Core value converter that stores <see cref="Money"/> as a single <c>varchar(25)</c> column
+/// formatted <c>"1234.5600 EUR"</c>. The 25-char ceiling fits the negative range boundary
+/// <c>"-999999999999999.9999 EUR"</c>.
 /// </summary>
 /// <remarks>
 /// A two-column split (amount + currency) is the ideal physical model for analytics, but EF expresses it
@@ -27,7 +28,12 @@ public sealed class MoneyValueConverter : ValueConverter<Money, string>
 
     private static Money Parse(string text)
     {
-        var space = text.IndexOf(' ');
+        if (text.Length == 0 || char.IsWhiteSpace(text[0]) || char.IsWhiteSpace(text[^1]))
+        {
+            throw new FormatException("Money string must be \"<amount> <currency>\" with no leading/trailing whitespace.");
+        }
+
+        var space = text.IndexOf(" ", StringComparison.Ordinal);
         if (space <= 0 || space == text.Length - 1)
         {
             throw new FormatException("Money string must be \"<amount> <currency>\".");
@@ -35,7 +41,7 @@ public sealed class MoneyValueConverter : ValueConverter<Money, string>
 
         var amount = decimal.Parse(
             text.AsSpan(0, space),
-            NumberStyles.Number,
+            NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint,
             CultureInfo.InvariantCulture);
         var currency = CurrencyCode.Parse(text[(space + 1)..]);
         return new Money(amount, currency);
@@ -46,13 +52,13 @@ public sealed class MoneyValueConverter : ValueConverter<Money, string>
 public static class MoneyEfExtensions
 {
     /// <summary>
-    /// Configures the property to persist via <see cref="MoneyValueConverter"/> with a 24-char max length.
-    /// Provider-specific column type (e.g. <c>varchar(24)</c>) should be set by the caller's relational config.
+    /// Configures the property to persist via <see cref="MoneyValueConverter"/> with a 25-char max length.
+    /// Provider-specific column type (e.g. <c>varchar(25)</c>) should be set by the caller's relational config.
     /// </summary>
     public static PropertyBuilder<Money> AsMoney(this PropertyBuilder<Money> b)
     {
         b.HasConversion(new MoneyValueConverter());
-        b.HasMaxLength(24);
+        b.HasMaxLength(25);
         return b;
     }
 }

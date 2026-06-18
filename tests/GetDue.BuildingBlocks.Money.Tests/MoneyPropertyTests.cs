@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using FluentAssertions;
 using FsCheck;
 using FsCheck.Xunit;
@@ -146,6 +147,7 @@ public sealed class MoneyPropertyTests
         var ex = op.Should().Throw<CurrencyMismatchException>().Which;
         ex.Message.Should().NotContain(left.Amount.ToString());
         ex.Message.Should().NotContain(right.Amount.ToString());
+        Regex.IsMatch(ex.Message, @"\d").Should().BeFalse("currency-mismatch messages must not leak any digits");
         ex.LeftCurrency.Should().Be(left.Currency.Value);
         ex.RightCurrency.Should().Be(right.Currency.Value);
     }

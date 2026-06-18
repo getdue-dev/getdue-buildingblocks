@@ -32,6 +32,10 @@ public sealed class MoneyValueConverterTests
     [InlineData("noseparator")]
     [InlineData(" EUR")]
     [InlineData("1.0000 ")]
+    [InlineData("1,000.0000 EUR")]
+    [InlineData(" 100.0000 EUR")]
+    [InlineData("100.0000 EUR ")]
+    [InlineData("")]
     public void Parsing_invalid_strings_throws(string bad)
     {
         var converter = new MoneyValueConverter();
@@ -50,7 +54,7 @@ public sealed class MoneyValueConverterTests
         var result = property.AsMoney();
 
         result.Should().BeSameAs(property);
-        property.Metadata.GetMaxLength().Should().Be(24);
+        property.Metadata.GetMaxLength().Should().Be(25);
         property.Metadata.GetValueConverter().Should().BeOfType<MoneyValueConverter>();
     }
 
