@@ -1,0 +1,58 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors / IDEs
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# .NET build output
+bin/
+obj/
+out/
+artifacts/
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+x64/
+x86/
+*.dll
+*.exe
+*.pdb
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+# Test results
+[Tt]est[Rr]esult*/
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+coverage.json
+coverage.cobertura.xml
+coverage.opencover.xml
+
+# Logs / temp
+*.log
+*.tmp
+*.cache
+
+# JetBrains Rider
+.idea/
+*.DotSettings.user
+
+# Local secrets (never commit)
+*.env
+secrets.*
+appsettings.*.Local.json
