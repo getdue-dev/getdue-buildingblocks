@@ -4,13 +4,25 @@
     <RootNamespace>GetDue.BuildingBlocks.Money</RootNamespace>
     <AssemblyName>GetDue.BuildingBlocks.Money</AssemblyName>
     <IsPackable>true</IsPackable>
-    <Description>Money value object and ISO-4217 currency primitives for GetDue services.</Description>
     <PackageId>GetDue.BuildingBlocks.Money</PackageId>
-    <PackageTags>getdue;money;value-object</PackageTags>
+    <Version>0.1.0</Version>
+    <Authors>GetDue Dev</Authors>
+    <Company>getdue-dev</Company>
+    <Description>Money value object (decimal 19,4 + ISO-4217 currency) with JSON and EF Core converters. Part of GetDue.BuildingBlocks.</Description>
+    <PackageTags>getdue;money;value-object;ddd</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/getdue-dev/getdue-buildingblocks</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/getdue-dev/getdue-buildingblocks</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
