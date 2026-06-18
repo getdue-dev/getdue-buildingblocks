@@ -29,8 +29,8 @@ jobs:
       - name: Restore
         run: dotnet restore GetDue.BuildingBlocks.sln
 
-      - name: Build
-        run: dotnet build src/GetDue.BuildingBlocks.Money/GetDue.BuildingBlocks.Money.csproj -c Release --no-restore -p:Version=${{ steps.version.outputs.version }}
+      - name: Build solution
+        run: dotnet build GetDue.BuildingBlocks.sln -c Release --no-restore -p:Version=${{ steps.version.outputs.version }}
 
       - name: Test (Money)
         run: dotnet test tests/GetDue.BuildingBlocks.Money.Tests/GetDue.BuildingBlocks.Money.Tests.csproj -c Release --no-build
