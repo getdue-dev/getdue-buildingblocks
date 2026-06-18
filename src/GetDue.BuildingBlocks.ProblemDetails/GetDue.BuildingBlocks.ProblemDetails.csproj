@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>GetDue.BuildingBlocks.ProblemDetails</RootNamespace>
+    <AssemblyName>GetDue.BuildingBlocks.ProblemDetails</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <Description>RFC 9457 problem-details primitives for GetDue services.</Description>
+  </PropertyGroup>
+
+</Project>

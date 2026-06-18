@@ -13,3 +13,9 @@ jobs:
   lint:
     uses: getdue-dev/.github/.github/workflows/lint.yml@main
     secrets: inherit
+  build:
+    uses: getdue-dev/.github/.github/workflows/dotnet-build.yml@main
+    with:
+      project: "GetDue.BuildingBlocks.sln"
+      run-tests: true
+    secrets: inherit

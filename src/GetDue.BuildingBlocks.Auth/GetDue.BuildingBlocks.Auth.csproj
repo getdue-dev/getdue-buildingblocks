@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>GetDue.BuildingBlocks.Auth</RootNamespace>
+    <AssemblyName>GetDue.BuildingBlocks.Auth</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <Description>JWT auth handler primitives for GetDue services.</Description>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>GetDue.BuildingBlocks.Idempotency</RootNamespace>
+    <AssemblyName>GetDue.BuildingBlocks.Idempotency</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <Description>Idempotency-Key middleware primitives for GetDue services.</Description>
+  </PropertyGroup>
+
+</Project>

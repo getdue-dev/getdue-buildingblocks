@@ -1,0 +1,43 @@
+<Project>
+
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+
+  <!-- Source-link / packaging -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+  </ItemGroup>
+
+  <!-- Test stack -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
+    <PackageVersion Include="xunit.v3" Version="3.2.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <PackageVersion Include="FluentAssertions" Version="7.2.2" />
+    <PackageVersion Include="FsCheck.Xunit.v3" Version="3.3.3" />
+    <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+    <PackageVersion Include="NetArchTest.Rules" Version="1.3.2" />
+  </ItemGroup>
+
+  <!--
+    Runtime dependencies for src projects are intentionally not pinned yet.
+    Each placeholder project currently has no runtime PackageReference. When the
+    real implementation lands (Money in subtask 3, others in follow-up PRs), the
+    consuming project will add a PackageReference and the version pin lands here.
+
+    Reserved entries (uncomment when the package is first referenced):
+      <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="..." />
+      <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="..." />
+      <PackageVersion Include="Rebus" Version="..." />
+      <PackageVersion Include="Rebus.RabbitMq" Version="..." />
+      <PackageVersion Include="Polly" Version="..." />
+      <PackageVersion Include="OpenTelemetry" Version="..." />
+      <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="..." />
+      <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="..." />
+      <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="..." />
+      <PackageVersion Include="Hellang.Middleware.ProblemDetails" Version="..." />
+  -->
+
+</Project>
